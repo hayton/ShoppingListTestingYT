@@ -49,3 +49,4 @@ package-list-coil-base
 docs-gen
 site
 *.bak
+gradle.properties
