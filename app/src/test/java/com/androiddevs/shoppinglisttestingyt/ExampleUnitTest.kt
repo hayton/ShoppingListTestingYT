@@ -14,4 +14,23 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun `test decode`() {
+        val input = "lint:;code:;love:;you"
+
+        val decode = Solution().decode(input)
+
+        assertEquals(listOf("lint", "code", "love", "you"), decode)
+    }
+
+    @Test
+    fun `test encode`() {
+        val input = listOf("lint", "code", "love", "you")
+
+        val encode = Solution().encode(input)
+
+        assertEquals("lint:;code:;love:;you", encode)
+    }
 }
+
