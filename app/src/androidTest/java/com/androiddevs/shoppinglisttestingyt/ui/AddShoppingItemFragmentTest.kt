@@ -19,7 +19,9 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import com.androiddevs.shoppinglisttestingyt.R
 import com.androiddevs.shoppinglisttestingyt.getOrAwaitValue
+import com.androiddevs.shoppinglisttestingyt.repositories.FakeShoppingRepositoryAndroidTest
 import com.google.common.truth.Truth.assertThat
+import javax.inject.Inject
 
 @MediumTest
 @HiltAndroidTest
@@ -32,9 +34,22 @@ class AddShoppingItemFragmentTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @Inject
+    lateinit var fragmentFactory: ShoppingFragmentFactory
+
     @Before
     fun setup() {
         hiltRule.inject()
+    }
+
+    @Test
+    fun clickInsertIntoDb_shoppingItemInsertedIntoDb() {
+        val testViewModel = ShoppingViewModel(FakeShoppingRepositoryAndroidTest())
+        launchFragmentInHiltContainer<AddShoppingItemFragment>(
+            fragmentFactory = fragmentFactory
+        ) {
+            viewModel = testViewModel //todo: find ways to use by viewModels delegate
+        }
     }
 
     @Test
