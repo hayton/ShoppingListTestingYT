@@ -21,6 +21,9 @@ import com.androiddevs.shoppinglisttestingyt.R
 import com.androiddevs.shoppinglisttestingyt.getOrAwaitValue
 import com.androiddevs.shoppinglisttestingyt.repositories.FakeShoppingRepositoryAndroidTest
 import com.google.common.truth.Truth.assertThat
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import javax.inject.Inject
 
 @MediumTest
@@ -37,8 +40,13 @@ class AddShoppingItemFragmentTest {
     @Inject
     lateinit var fragmentFactory: ShoppingFragmentFactory
 
+//    @RelaxedMockK
+//    lateinit var viewModel: ShoppingViewModel
+
+
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         hiltRule.inject()
     }
 
@@ -47,9 +55,7 @@ class AddShoppingItemFragmentTest {
         val testViewModel = ShoppingViewModel(FakeShoppingRepositoryAndroidTest())
         launchFragmentInHiltContainer<AddShoppingItemFragment>(
             fragmentFactory = fragmentFactory
-        ) {
-            viewModel = testViewModel //todo: find ways to use by viewModels delegate
-        }
+        )
     }
 
     @Test
@@ -75,8 +81,7 @@ class AddShoppingItemFragmentTest {
 
         pressBack()
 
-        val url = fragment?.viewModel?.curImageUrl?.getOrAwaitValue()
-        assertThat(url).isEmpty()
+        assertThat(fragment?.viewModel?.curImageUrl?.getOrAwaitValue()).isEmpty()
 
     }
 

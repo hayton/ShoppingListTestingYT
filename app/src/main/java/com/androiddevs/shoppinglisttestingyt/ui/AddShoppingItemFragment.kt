@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -13,14 +14,18 @@ import com.androiddevs.shoppinglisttestingyt.databinding.FragmentAddShoppingItem
 import com.androiddevs.shoppinglisttestingyt.di.other.Status
 import com.bumptech.glide.RequestManager
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class AddShoppingItemFragment @Inject constructor(
-    val glide: RequestManager
-): Fragment(R.layout.fragment_add_shopping_item) {
+@AndroidEntryPoint
+class AddShoppingItemFragment: Fragment(R.layout.fragment_add_shopping_item) {
 
     private lateinit var binding: FragmentAddShoppingItemBinding
 
+    @Inject
+    lateinit var glide: RequestManager
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val viewModel by activityViewModels<ShoppingViewModel>()
 
     override fun onCreateView(
